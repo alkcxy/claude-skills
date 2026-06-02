@@ -11,9 +11,13 @@ Le regole sotto evitano i fallimenti più tipici della fase di planning: assunzi
 
 ### 0. Creare il branch della storia (PRIMO PASSO, sempre)
 
-- Fare `git pull origin master` (o `main`) per partire dall'ultimo stato del branch principale.
-- Creare subito il branch dedicato: `git checkout -b feature/<nome-storia>`.
-- Non lavorare mai sul branch di una storia precedente, anche se ci si trova già lì.
+- Tornare su master/main ed aggiornarlo da origin **prima** di creare il branch:
+  ```bash
+  git checkout master
+  git pull origin master
+  git checkout -b feature/<nome-storia>
+  ```
+- Non creare il branch da un branch di una storia precedente, anche se ci si trova già lì: il punto di partenza deve essere sempre master/main sincronizzato con origin.
 - Questo va fatto **prima** di leggere l'issue, prima di toccare qualsiasi file.
 
 ### 1. Leggere l'issue, non solo l'ADR
