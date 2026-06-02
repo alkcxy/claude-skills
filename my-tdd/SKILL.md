@@ -1,5 +1,5 @@
 ---
-name: tdd
+name: my-tdd
 description: Usare quando si sta implementando una storia/feature e c'è da scrivere codice produttivo. Forza il ciclo red-green-refactor, la copertura dei path non-happy, i test di sicurezza per gli endpoint, e — quando i test automatici non sono possibili — la definizione di un test plan manuale strutturato prima del codice.
 ---
 
@@ -57,7 +57,7 @@ Prima di considerare l'implementazione "done":
 2. **Path non-happy coperti** con assertions precise (status, content-type, body).
 3. **Test cross-user** per ogni endpoint scopato all'utente.
 4. **Test plan manuale** scritto nello stesso commit, se la suite automatica non copre.
-5. **Test plan eseguito** almeno una volta sull'ambiente reale (vedi skill `review`).
+5. **Test plan eseguito** almeno una volta sull'ambiente reale (vedi skill `my-review`).
 
 ## Anti-pattern da evitare
 

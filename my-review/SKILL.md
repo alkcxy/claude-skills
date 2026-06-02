@@ -1,5 +1,5 @@
 ---
-name: review
+name: my-review
 description: Usare prima di considerare una storia/PR "done", quando si riepiloga lo stato al utente, o quando si descrivono gli endpoint/funzionalità disponibili. Forza la verifica manuale, l'allineamento tra descrizione e codice reale del branch, la documentazione dei workaround temporanei e un tono non paternalistico.
 ---
 

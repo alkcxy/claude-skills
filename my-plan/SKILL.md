@@ -1,5 +1,5 @@
 ---
-name: plan
+name: my-plan
 description: Usare quando si inizia a lavorare su una storia/issue/feature e serve fare planning prima di scrivere codice. Forza la lettura dell'issue, la verifica dell'ambiente di esecuzione, il controllo della config del framework e l'identificazione dei prerequisiti tecnici.
 ---
 
@@ -33,7 +33,7 @@ Prima di dichiarare il planning completo, elencare esplicitamente:
 - Configurazioni esterne richieste (es. ID di un'estensione, secret, env var, chiavi API).
 - Codice esistente da riutilizzare invece di duplicare (cercare con grep prima di scrivere).
 - Vincoli del runtime (es. ambienti senza stato in-memory persistente, sandbox con permessi limitati).
-- Modalità di test disponibili: c'è una suite automatizzata? Se no, va previsto un test plan manuale (vedi skill `tdd`).
+- Modalità di test disponibili: c'è una suite automatizzata? Se no, va previsto un test plan manuale (vedi skill `my-tdd`).
 
 ## Output del planning
 
