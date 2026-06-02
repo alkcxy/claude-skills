@@ -9,6 +9,13 @@ Le regole sotto evitano i fallimenti più tipici della fase di planning: assunzi
 
 ## Checklist da eseguire prima di toccare codice
 
+### 0. Creare il branch della storia (PRIMO PASSO, sempre)
+
+- Fare `git pull origin master` (o `main`) per partire dall'ultimo stato del branch principale.
+- Creare subito il branch dedicato: `git checkout -b feature/<nome-storia>`.
+- Non lavorare mai sul branch di una storia precedente, anche se ci si trova già lì.
+- Questo va fatto **prima** di leggere l'issue, prima di toccare qualsiasi file.
+
 ### 1. Leggere l'issue, non solo l'ADR
 
 - Aprire l'issue collegata alla storia come primo passo, sempre.
@@ -48,6 +55,7 @@ Se uno di questi punti è incerto, fermarsi e chiarire prima di scrivere codice.
 
 ## Anti-pattern da evitare
 
+- Iniziare a lavorare senza aver fatto `git pull` e creato il branch dedicato.
 - Iniziare a scrivere codice basandosi solo sull'ADR.
 - Lanciare comandi del framework senza aver verificato che la toolchain sia disponibile sull'ambiente corrente.
 - Aggiungere una dipendenza senza aver controllato la config su cui poggia.
