@@ -57,6 +57,10 @@ Prima di passare all'implementazione, comunicare in forma sintetica:
 
 Se uno di questi punti è incerto, fermarsi e chiarire prima di scrivere codice.
 
+### Salvare il piano su file (senza committare)
+
+Dopo aver comunicato il piano, salvarlo in `docs/piano-<nome-storia>.md` nel progetto **senza fare commit**. Questo permette all'utente di resettare il contesto di Claude e avviare l'implementazione in una sessione fresca, con il piano già disponibile come file di riferimento.
+
 ## Anti-pattern da evitare
 
 - Iniziare a lavorare senza aver fatto `git pull` e creato il branch dedicato.
@@ -65,3 +69,4 @@ Se uno di questi punti è incerto, fermarsi e chiarire prima di scrivere codice.
 - Aggiungere una dipendenza senza aver controllato la config su cui poggia.
 - Duplicare logica già presente perché non si è cercato nel codice esistente.
 - Rimandare la definizione del test plan a "dopo".
+- Lasciare il piano solo nella conversazione senza salvarlo su file: il contesto può essere resettato prima dell'implementazione.
