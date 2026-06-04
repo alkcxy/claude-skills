@@ -57,7 +57,30 @@ Prima di considerare l'implementazione "done":
 2. **Path non-happy coperti** con assertions precise (status, content-type, body).
 3. **Test cross-user** per ogni endpoint scopato all'utente.
 4. **Test plan manuale** scritto nello stesso commit, se la suite automatica non copre.
-5. **Test plan eseguito** almeno una volta sull'ambiente reale (vedi skill `my-review`).
+5. **Push del branch e creazione della PR** — dopo che i test automatici passano, fare push e aprire la PR.
+6. **Test plan eseguito** almeno una volta sull'ambiente reale, **dopo la creazione della PR** (vedi skill `my-review`).
+
+## Creare la PR
+
+Dopo che i test automatici passano, push del branch e apertura della PR:
+
+```bash
+git push -u origin <branch>
+gh pr create --title "<titolo>" --body "$(cat <<'EOF'
+## Summary
+- <bullet point delle modifiche>
+
+## Test plan manuale
+<copiare qui il test plan manuale se presente, altrimenti "N/A — copertura automatica completa">
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+EOF
+)"
+```
+
+- Il titolo segue il formato dei commit recenti del repo.
+- Il test plan manuale va nel body della PR, non in un commit separato dopo.
+- I test manuali si eseguono **dopo** aver aperto la PR, non prima.
 
 ## Anti-pattern da evitare
 
@@ -66,3 +89,4 @@ Prima di considerare l'implementazione "done":
 - Endpoint API senza un test esplicito di authorization cross-user.
 - "Aggiungerò il test plan dopo nella PR description".
 - Saltare il test plan manuale perché "tanto la feature funziona, l'ho provata al volo".
+- Eseguire i test manuali prima di aprire la PR.
