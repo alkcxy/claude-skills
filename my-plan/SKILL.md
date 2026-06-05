@@ -19,6 +19,7 @@ Le regole sotto evitano i fallimenti più tipici della fase di planning: assunzi
   ```
 - Non creare il branch da un branch di una storia precedente, anche se ci si trova già lì: il punto di partenza deve essere sempre master/main sincronizzato con origin.
 - Questo va fatto **prima** di leggere l'issue, prima di toccare qualsiasi file.
+- **Anti-pattern critico:** non eseguire prima l'investigazione sul codice e poi lo step 0 alla fine. Il codice da investigare deve essere quello del branch aggiornato, non quello di un branch precedente. Step 0 prima, investigazione dopo.
 
 ### 1. Leggere l'issue, non solo l'ADR
 
