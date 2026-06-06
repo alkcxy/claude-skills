@@ -24,7 +24,12 @@ cd ~/workspace/claude-skills
 ./install.sh
 ```
 
-`install.sh` crea (se non esiste) `~/.claude/skills/` e per ogni directory contenente un `SKILL.md` crea un symlink dentro `~/.claude/skills/` puntando alla copia nel repo. Il symlink è non distruttivo: se un nome collide con qualcosa di preesistente in `~/.claude/skills/` lo script salta quella skill e segnala il conflitto invece di sovrascriverlo.
+`install.sh` crea (se non esiste) la directory skill di destinazione e per ogni directory contenente un `SKILL.md` crea un symlink puntando alla copia nel repo. Il symlink è non distruttivo: se un nome collide con qualcosa di preesistente lo script salta quella skill e segnala il conflitto invece di sovrascriverlo.
+
+La directory di destinazione si risolve così (stesso ordine di priorità di Claude Code):
+1. `$CLAUDE_SKILLS_DIR`, se impostata esplicitamente
+2. `$CLAUDE_CONFIG_DIR/skills`, se `CLAUDE_CONFIG_DIR` è impostata (es. profili secondari come `~/.claude-personal`)
+3. `~/.claude/skills` come default
 
 Puoi clonare in qualsiasi path: lo script usa il path assoluto della directory in cui si trova.
 

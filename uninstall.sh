@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# Remove only the symlinks in ~/.claude/skills/ that point into this repo.
+# Remove only the symlinks in Claude Code's skills directory that point into this repo.
 # Leaves regular files and third-party symlinks untouched.
 
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-target_dir="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
+# Same resolution as install.sh — see comment there.
+target_dir="${CLAUDE_SKILLS_DIR:-${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills}"
 
 if [ ! -d "$target_dir" ]; then
     echo "$target_dir does not exist. Nothing to do."

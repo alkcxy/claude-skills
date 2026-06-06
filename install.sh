@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
-# Symlink each skill in this repo into ~/.claude/skills/.
+# Symlink each skill in this repo into Claude Code's skills directory.
 # Idempotent: re-running is safe and only reports changes.
 
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-target_dir="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
+# Mirror Claude Code's own resolution: CLAUDE_CONFIG_DIR overrides the default
+# ~/.claude (e.g. CLAUDE_CONFIG_DIR=~/.claude-personal for a secondary profile).
+# CLAUDE_SKILLS_DIR remains the explicit, highest-priority override.
+target_dir="${CLAUDE_SKILLS_DIR:-${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills}"
 
 mkdir -p "$target_dir"
 
