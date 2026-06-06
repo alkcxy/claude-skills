@@ -9,6 +9,7 @@ Skill personali per [Claude Code](https://claude.com/claude-code), pensate per e
 | `plan` | Prima di scrivere codice su una storia/issue/feature: lettura issue, verifica ambiente, controllo config framework, prerequisiti tecnici. |
 | `tdd` | Durante l'implementazione: ciclo red-green-refactor, path non-happy, test cross-user per gli endpoint, test plan manuale strutturato. |
 | `review` | Prima di chiudere una storia: test manuale, allineamento descrizione/branch, documentazione dei workaround, tono non paternalistico. |
+| `validate` | Per validare/fact-checkare un testo argomentativo: inventario delle affermazioni, verifica fattuale, coerenza affermazioni-evidenze, flusso logico, analisi controfattuale (steelmanning) con classificazione 🟢/🟡/🔴. |
 
 Ogni skill è una directory con un `SKILL.md` dotato di frontmatter `name` + `description`. Claude Code carica la skill quando la `description` matcha l'intento dell'utente o quando si chiama esplicitamente via `/<nome-skill>` o dal tool `Skill`.
 
