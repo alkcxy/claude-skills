@@ -1,6 +1,6 @@
 ---
 name: my-agentic-docs
-description: Usare quando si imposta, audita o sistema i file di contesto per agenti AI di un progetto (AGENTS.md, CLAUDE.md, copilot-instructions.md, file annidati per sottocartella/area). Copre il pattern symlink AGENTS.md↔CLAUDE.md, quando creare file scoped per area/funzionalità invece di un unico file enorme, cosa includere nei contenuti, e come verificare che non siano disallineati dallo stato reale del repo.
+description: Usare quando si imposta, audita o sistema i file di contesto per agenti AI (AGENTS.md, CLAUDE.md, copilot-instructions.md, file annidati per sottocartella/area/account). Copre il pattern symlink AGENTS.md↔CLAUDE.md, quando creare file scoped per area/funzionalità invece di un unico file enorme, cosa includere nei contenuti, come verificare che non siano disallineati dallo stato reale del repo, e come evitare che contesto di un altro account/dominio (es. lavoro vs personale) finisca caricato dove non serve.
 ---
 
 # Agentic docs — impostare e correggere i file di contesto di un progetto
@@ -60,3 +60,13 @@ I file di contesto invecchiano: comandi rinominati, percorsi spostati, versioni 
 - Le versioni dichiarate combaciano con lockfile/manifest? (`Gemfile.lock`, `package.json`, `.tool-versions`, ecc.)
 
 Se trovi affermazioni non più vere, correggile sul posto invece di lasciarle — un file di contesto sbagliato è peggio di nessun file, perché l'agente lo tratta come verità.
+
+## 6. Lo scope non finisce al progetto: controlla anche cosa arriva dall'alto
+
+Claude Code non carica solo i file del repo: risale la gerarchia delle directory raccogliendo ogni `CLAUDE.md` che trova fino alla radice, oltre al file utente globale (`~/.claude/CLAUDE.md`). Un audit incompleto guarda solo dentro il progetto — il contesto "che arriva da fuori" può essere altrettanto rilevante, o dannoso quanto uno scoping sbagliato dentro il repo.
+
+**Caso concreto da cercare**: contenuti specifici di un account/dominio finiti in un file caricato ovunque. Esempio reale riscontrato: un `CLAUDE.md` globale che mischiava setup e workflow dell'account di lavoro (ricerca interna aziendale, workflow Jira, pattern di un progetto Android specifico) con quelli dell'account personale — risultato: ogni sessione su un progetto privato si portava dietro contesto aziendale del tutto irrilevante (e viceversa). È lo stesso problema di scoping del punto 3, ma un livello più in alto — e altrettanto concreto: un agente che cita un pattern Android aziendale come esempio mentre lavora su un'app Rails privata non sta semplicemente "sbagliando esempio", sta dimostrando che il contesto sbagliato gli è arrivato in tasca.
+
+**Come correggere**: sposta i contenuti specifici-di-dominio al livello di directory che corrisponde davvero al loro confine — non al singolo progetto (troppo stretto), né al file utente globale (troppo largo). Tipicamente la directory che raggruppa i progetti di un account/contesto (es. `~/workspace/mine/CLAUDE.md` per progetti personali, `~/workspace/expedia/CLAUDE.md` per progetti aziendali): Claude Code li carica automaticamente — e solo — quando si lavora in quell'albero, mentre il file globale resta snello con le sole regole davvero universali (stile di comunicazione, lingua, convenzioni di PR review). In ciascun file scoped per account, vale la pena scrivere esplicitamente la regola "non mescolare": non confrontare, citare esempi o portare pattern da progetti dell'altro account/contesto, salvo richiesta esplicita.
+
+Per vedere cosa carica davvero una sessione, controlla l'elenco dei file di memoria mostrato all'avvio o usa `/memory`.
