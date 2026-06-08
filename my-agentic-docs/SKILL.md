@@ -13,7 +13,17 @@ Cerca tutti i file esistenti, alla radice e annidati:
 ```bash
 find . \( -iname "AGENTS.md" -o -iname "CLAUDE.md" -o -iname "copilot-instructions.md" -o -iname "CLAUDE.local.md" \) -not -path "*/node_modules/*" -not -path "*/.git/*"
 ```
+
+**Se non trovi nessun file** → salta direttamente alla sezione [Init modificato](#init-modificato-solo-se-nessun-file-trovato).
+
 Per ognuno, controlla con `ls -la` se è un file vero o un symlink, e se più file hanno contenuti che si sovrappongono o divergono (drift tra fonti).
+
+Poi verifica la **freshness**: confronta il mtime del file con il timestamp dell'ultimo commit git.
+```bash
+git log --format="%at" -1          # timestamp ultimo commit (Unix)
+stat -c "%Y %n" AGENTS.md CLAUDE.md 2>/dev/null  # mtime dei file trovati
+```
+Se **mtime del file > timestamp dell'ultimo commit**: il file è **fresh** — è stato creato o modificato dopo l'ultimo commit, tipicamente da un `/init` appena eseguito. Segna mentalmente questo fatto: lo step 5 (drift check) va saltato.
 
 ## 2. Pattern corretto: AGENTS.md come fonte, CLAUDE.md come symlink
 
@@ -54,6 +64,8 @@ Se conoscenze rilevanti sul progetto vivono solo nella memoria esterna dell'agen
 
 ## 5. Verifica drift: i contenuti corrispondono ancora alla realtà?
 
+**Salta questo step se il file è fresh** (mtime > ultimo commit, rilevato allo step 1) — un file appena creato non può aver derivato rispetto alla realtà del repo.
+
 I file di contesto invecchiano: comandi rinominati, percorsi spostati, versioni cambiate. Prima di fidarti di un file esistente (o dopo averlo scritto/corretto), verifica che le affermazioni fattuali siano ancora vere:
 - I comandi citati esistono e girano? (`docker compose config`, `<tool> --help`, dry-run quando possibile)
 - I percorsi/file citati esistono ancora? (`ls`, `find`)
@@ -70,3 +82,19 @@ Claude Code non carica solo i file del repo: risale la gerarchia delle directory
 **Come correggere**: sposta i contenuti specifici-di-dominio al livello di directory che corrisponde davvero al loro confine — non al singolo progetto (troppo stretto), né al file utente globale (troppo largo). Tipicamente la directory che raggruppa i progetti di un account/contesto (es. `~/workspace/mine/CLAUDE.md` per progetti personali, `~/workspace/expedia/CLAUDE.md` per progetti aziendali): Claude Code li carica automaticamente — e solo — quando si lavora in quell'albero, mentre il file globale resta snello con le sole regole davvero universali (stile di comunicazione, lingua, convenzioni di PR review). In ciascun file scoped per account, vale la pena scrivere esplicitamente la regola "non mescolare": non confrontare, citare esempi o portare pattern da progetti dell'altro account/contesto, salvo richiesta esplicita.
 
 Per vedere cosa carica davvero una sessione, controlla l'elenco dei file di memoria mostrato all'avvio o usa `/memory`.
+
+---
+
+## Init modificato (solo se nessun file trovato)
+
+Se l'inventario non ha trovato nessun file di contesto, non lanciare `/init` tal quale — produrrebbe `CLAUDE.md` come file reale, e questa skill dovrebbe comunque correggerlo subito dopo. Invece:
+
+1. **Analizza il repo** come farebbe `/init`: struttura delle directory, linguaggi, tool di build/test, comandi rilevanti, dipendenze principali, stack e versioni.
+2. **Scrivi direttamente `AGENTS.md`** con i contenuti dello step 4 (comandi funzionanti, vincoli non derivabili, stack, mappa del repo).
+3. **Crea subito il symlink**:
+   ```bash
+   ln -s AGENTS.md CLAUDE.md
+   ```
+4. **Salta gli step 2 e 5** — il pattern è già corretto, il file è fresh per definizione.
+
+Continua dagli step 3, 4 e 6 per verificare scoping e gerarchia.
