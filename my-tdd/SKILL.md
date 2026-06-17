@@ -13,6 +13,15 @@ Le regole sotto nascono da bug concreti emersi solo in produzione o in review pe
 - Se il test passa al primo colpo prima di toccare il codice produttivo, è probabilmente un test sbagliato — verificare l'assertion.
 - Pattern tipico mancato: un bug di configurazione del cache (es. cache store "no-op" in test) sarebbe emerso in locale durante un test red-first, invece di emergere in produzione.
 
+## Localizzare il codice con precisione (tool semantici)
+
+Per trovare la funzione/endpoint sotto test, i suoi call-site e i side-effect da asserire, se il progetto ha un tool LSP-based (es. **serena**) preferire le query a livello di simbolo alla lettura di interi file:
+- `find_symbol` con body per leggere esattamente la funzione da testare o rifattorizzare.
+- `search_for_pattern` (grep semantico) per mappare i call-site e i punti che producono side-effect — es. dove si fa `Resource.find(params[:id])` invece di `current_user.resources.find(...)`, il bug che il test cross-user deve catturare.
+- In fase di **refactor** (la R di red-green-refactor): prima di cambiare una firma, mappare tutti i riferimenti. `find_referencing_symbols` è lo strumento ideale **ma** è inaffidabile a LSP freddo (timeout o risultato vuoto) → fallback su `search_for_pattern` finché l'indice non è caldo.
+
+Vantaggio: posizioni e firme esatte con molto meno contesto consumato rispetto a leggere interi file. La precisione delle righe evita assertions o edit basati su numeri di riga stimati.
+
 ## Coprire i path non-happy con assertions precise
 
 I test del solo happy path lasciano passare bug strutturali. Per ogni endpoint/feature, prevedere assertions su:
@@ -90,3 +99,4 @@ EOF
 - "Aggiungerò il test plan dopo nella PR description".
 - Saltare il test plan manuale perché "tanto la feature funziona, l'ho provata al volo".
 - Eseguire i test manuali prima di aprire la PR.
+- Rinominare o spostare un simbolo senza prima mappare tutti i suoi riferimenti (a LSP caldo via `find_referencing_symbols`, altrimenti via `search_for_pattern`).

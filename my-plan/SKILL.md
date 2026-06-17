@@ -43,7 +43,7 @@ Le regole sotto evitano i fallimenti più tipici della fase di planning: assunzi
 
 Prima di dichiarare il planning completo, elencare esplicitamente:
 - Configurazioni esterne richieste (es. ID di un'estensione, secret, env var, chiavi API).
-- Codice esistente da riutilizzare invece di duplicare (cercare con grep prima di scrivere).
+- Codice esistente da riutilizzare invece di duplicare. Per cercarlo, se il progetto ha un tool semantico LSP-based (es. **serena**), preferire la ricerca a livello di simbolo (`search_for_pattern`, `find_symbol` con body) a `grep` o alla lettura di interi file: restituisce firma e posizione esatte e costa molto meno contesto (~60-80% di token in meno a parità di fatti verificati). Caveat: a LSP "freddo" `find_referencing_symbols` e il primo `find_symbol` possono andare in timeout o tornare vuoti → finché l'indice non è caldo, affidarsi a `search_for_pattern` (grep semantico). Usare invece agenti di esplorazione ampi per la discovery iniziale non delimitata, dove il cold-start del LSP penalizza di più.
 - Vincoli del runtime (es. ambienti senza stato in-memory persistente, sandbox con permessi limitati).
 - Modalità di test disponibili: c'è una suite automatizzata? Se no, va previsto un test plan manuale (vedi skill `my-tdd`).
 
@@ -69,5 +69,6 @@ Dopo aver comunicato il piano, salvarlo in `docs/piano-<nome-storia>.md` nel pro
 - Lanciare comandi del framework senza aver verificato che la toolchain sia disponibile sull'ambiente corrente.
 - Aggiungere una dipendenza senza aver controllato la config su cui poggia.
 - Duplicare logica già presente perché non si è cercato nel codice esistente.
+- Leggere interi file (o lanciare agenti di esplorazione ampi) per verificare posizione o firma di un simbolo quando è disponibile un tool semantico che risponde con una query mirata.
 - Rimandare la definizione del test plan a "dopo".
 - Lasciare il piano solo nella conversazione senza salvarlo su file: il contesto può essere resettato prima dell'implementazione.
