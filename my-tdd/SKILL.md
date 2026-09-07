@@ -59,6 +59,29 @@ Esempio di formato accettabile:
 4. Atteso (side effect): record creato in tabella `bar` con `user_id = current_user.id`.
 ```
 
+## Commenti: quasi sempre sono codice scritto male
+
+La R di red-green-**refactor** include togliere i commenti rendendoli superflui.
+
+- **Docstring sì, commenti inline no.** Se un blocco ha bisogno di un commento
+  per spiegarsi, estrarre un metodo con un nome che dica quello che direbbe il
+  commento, o una costante autodescrittiva. Il nome resta corretto anche quando
+  il codice cambia; il commento no.
+- **Inglese** per tutto ciò che resta nel codice: docstring, nomi, messaggi.
+- **Mai riferimenti a numeri di issue** (`#44`, `#22`) nel codice: invecchiano
+  male e legano il sorgente a una storia finita. Le motivazioni legate a una
+  storia vanno nel messaggio di commit o nella descrizione della PR, che sono
+  il posto giusto per il contesto temporaneo.
+- **File di configurazione**: `config.ini` e simili sono l'unico posto dove i
+  commenti *servono* davvero — li legge un operatore, non uno sviluppatore, e
+  spiegano cablaggi e soglie che il nome della chiave non dice. Anche lì però
+  l'inglese, come nel resto.
+- **Codice commentato** (righe di codice disattivate con `#`): si cancella. Se
+  serviva, è nella storia git.
+
+Prima di lasciare un commento, chiedersi: *un nome migliore lo elimina?* Se sì,
+il commento è il sintomo, non la cura.
+
 ## Output dell'implementazione TDD
 
 Prima di considerare l'implementazione "done":
@@ -96,6 +119,9 @@ EOF
 - Scrivere il codice e poi i test "per coprire".
 - Test che asseriscono solo `expect(response).to be_successful` senza controllare status code e content-type.
 - Endpoint API senza un test esplicito di authorization cross-user.
+- Spiegare con un commento quello che un nome di metodo o costante direbbe meglio.
+- Citare numeri di issue nel codice invece che nel commit o nella PR.
+- Lasciare righe di codice commentate "per sicurezza": c'è git.
 - "Aggiungerò il test plan dopo nella PR description".
 - Saltare il test plan manuale perché "tanto la feature funziona, l'ho provata al volo".
 - Eseguire i test manuali prima di aprire la PR.
