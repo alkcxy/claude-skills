@@ -72,9 +72,10 @@ La R di red-green-**refactor** include togliere i commenti rendendoli superflui.
   male e legano il sorgente a una storia finita. Le motivazioni legate a una
   storia vanno nel messaggio di commit o nella descrizione della PR, che sono
   il posto giusto per il contesto temporaneo.
-- **File di configurazione**: fanno eccezione. `config.ini` e simili li legge un
-  operatore, non uno sviluppatore: lì i commenti servono e restano nella lingua
-  in cui sono.
+- **File di configurazione**: `config.ini` e simili sono l'unico posto dove i
+  commenti *servono* davvero — li legge un operatore, non uno sviluppatore, e
+  spiegano cablaggi e soglie che il nome della chiave non dice. Anche lì però
+  l'inglese, come nel resto.
 - **Codice commentato** (righe di codice disattivate con `#`): si cancella. Se
   serviva, è nella storia git.
 
