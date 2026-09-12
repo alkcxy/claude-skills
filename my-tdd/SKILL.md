@@ -67,6 +67,13 @@ La R di red-green-**refactor** include togliere i commenti rendendoli superflui.
   per spiegarsi, estrarre un metodo con un nome che dica quello che direbbe il
   commento, o una costante autodescrittiva. Il nome resta corretto anche quando
   il codice cambia; il commento no.
+- **Una docstring dice cosa fa il codice adesso, non come era prima.** Niente
+  "ogni getter riparsava il file", niente "prima erano tre variabili globali",
+  niente misure del miglioramento: il racconto del difetto e di come è stato
+  risolto sta nel commit e nella PR, dove resta datato. Nel codice invecchia, e
+  chi legge deve attraversare la storia per arrivare all'unica riga che gli
+  serve. Vale anche per le docstring delle classi di test e per gli header dei
+  file di configurazione.
 - **Inglese** per tutto ciò che resta nel codice: docstring, nomi, messaggi.
 - **Mai riferimenti a numeri di issue** (`#44`, `#22`) nel codice: invecchiano
   male e legano il sorgente a una storia finita. Le motivazioni legate a una
@@ -120,6 +127,7 @@ EOF
 - Test che asseriscono solo `expect(response).to be_successful` senza controllare status code e content-type.
 - Endpoint API senza un test esplicito di authorization cross-user.
 - Spiegare con un commento quello che un nome di metodo o costante direbbe meglio.
+- Aprire una docstring raccontando com'era il codice prima della modifica, o di quanto è migliorato.
 - Citare numeri di issue nel codice invece che nel commit o nella PR.
 - Lasciare righe di codice commentate "per sicurezza": c'è git.
 - "Aggiungerò il test plan dopo nella PR description".
